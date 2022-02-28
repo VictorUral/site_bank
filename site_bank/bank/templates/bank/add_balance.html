@@ -1,0 +1,14 @@
+{% extends 'bank/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{title}}</h1><br>
+    <p>Сейчас не счету: {{account_balance.balance}} {{account_balance.bank_account}}</p><br>
+  
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+    <button type="submit" class="btn btn-primary">Пополнить</button>
+  </form>
+  </div>
+{% endblock %}

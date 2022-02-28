@@ -1,0 +1,49 @@
+{% extends 'bank/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h4>ID: {{ client.id }}, Логин: {{ client.username }}</h4><br>
+    
+    <h5>Личная информация</h5>
+    {% if not client.first_name and not client.last_name and client.sex == ' ' and not client.age and not client.email %}
+    <br><a href="{% url 'change_profile' %}"><button type="button" class="btn btn-primary">Заполнить информацию о себе</button></a><br><br><br>
+    {% else %}
+    <table class="table">
+	  <thead>
+      <tr>
+        <th>ФИО</th>
+        <th>Пол</th>
+        <th>Возраст</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+	  <tr>
+        <td>{{ client.first_name }} {{ client.last_name }}</td>
+        <td>{{ client.sex }}</td>
+        <td>{{ client.age }}</td>
+        <td>{{ client.email }}</td>
+      </tr>
+	</tbody>
+	</table>
+	<a href="{% url 'change_profile' %}"><button type="button" class="btn btn-primary">Редактировать</button></a>
+    <br><br><br>
+    {% endif %}
+    
+    <h5>Ваши счета</h5>
+    {% if client.bank_account_set.count != 0 %}
+      {% for c in client.bank_account_set.all %}
+         <p>ID счёта: {{ c.id }}, Валюта счёта: {{ c.account }}, Баланс: {{ c.account_balance.balance }}<a href="{{ c.account_balance.get_absolute_url }}"><button type="button" class="btn btn-primary btn-sm ms-3">Пополнить баланс</button></a><a href="{{ c.del_account_url }}"><button type="button" class="btn btn-primary btn-sm ms-3">Удалить счёт</button></a></p>
+      {% endfor %}
+    {% else %}
+      <p>У Вас нет созданных счётов</p>
+    {% endif %}
+    
+	{% if client.bank_account_set.count < 3 %}
+      <a href="{% url 'add_account' %}"><button type="button" class="btn btn-primary">Создать счёт</button></a>
+    {% endif %}
+    {% if client.bank_account_set.count >= 2 %}
+      <a href="{% url 'transfers' %}"><button type="button" class="btn btn-primary">Переводы</button></a>
+    {% endif %}
+  </div>
+{% endblock %}

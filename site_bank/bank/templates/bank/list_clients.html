@@ -1,0 +1,38 @@
+{% extends 'bank/base.html' %}
+
+{% block content %}
+  <div class="container">
+	<h1>{{title}}</h1><br>
+	
+	<form action="{% url 'list_clients' %}" method="get">
+	  {% csrf_token %}
+	  {{ form }}
+	  <button type="submit" class="btn btn-primary btn-sm">Сортировать</button>
+	</form>
+
+	<table class="table table-hover">
+	  <thead>
+	    <tr>
+	      <th>Логин</th>
+	      <th>Пол</th>
+	      <th>Возраст</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for client in clients %}
+	      <tr>
+	        {% if not client.is_staff %}
+	        <th>{{ client.username }}</th>
+	        <th>{{ client.sex }}</th>
+			  {% if not client.age %}
+			  <th></th>
+			  {% else %}
+	          <th>{{ client.age }}</th>
+	          {% endif %}
+	        {% endif %}
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+  </div>	
+{% endblock %}

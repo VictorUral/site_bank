@@ -1,0 +1,18 @@
+{% extends 'bank/base.html' %}
+
+<!--{% load crispy_forms_tags %}--> 
+
+{% block content %}
+  <div class="container">
+    <h1>{{title}}</h1>
+    <form action="{% url 'add_client' %}" method="post">
+      {% csrf_token %}
+      {% for f in form %}
+        <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+        <p>{{ f }}</p>
+        <p>{{ f.errors }}</p>
+      {% endfor %}
+    <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+  </div>
+{% endblock %}

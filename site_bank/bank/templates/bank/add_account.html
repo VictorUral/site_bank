@@ -1,0 +1,13 @@
+{% extends 'bank/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{title}}</h1><br>
+    <form action="{% url 'add_account' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+  </div>
+{% endblock %}
+
